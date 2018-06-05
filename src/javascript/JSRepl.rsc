@@ -26,11 +26,10 @@ CommandResult handl(str line){
 		<js, xref, renaming> = desugarAndResolve(pt);
         fixed = rename(js, renaming);
         original = translate(pt);
-        //desugared = fixed
-        desugared = translate(fixed); //generateFiles(pt, fixed);
+
+        desugared = translate(fixed);
         desugaredSrc = unparse(fixed);
-        //
-         //rst = toHTML(jsView);
+
         rst = toHTML(jsView);
         
         str merge(str template) {
@@ -56,9 +55,6 @@ Completion complet(str prefix, int offset) {
 }
 
 str translate(start[Source] orig) {
-	//jsOut = orig@\loc.top[extension="js"];
- //	writeFile(jsOut, unparse(desugared));
- //	generateHtmlFile(orig, desugared);
  	str toJsStr(str code) {
 		code = replaceAll(code, "\n", " \\n \\\n");
 		code = replaceAll(code, "\"", "\\\"");
