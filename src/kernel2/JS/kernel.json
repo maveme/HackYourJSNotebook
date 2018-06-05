@@ -1,0 +1,16 @@
+{
+	"argv": [
+		"java",
+		"-jar",
+ 		
+		"/Users/Mauricio/Documents/bacata/bacata-rascal/target/bacata-dsl.jar",
+		"{connection_file}",
+		"home:///Downloads/hack-your-javascript-master/src/javascript",
+		"JSRepl",
+		"jsREPL",
+		"JS"
+ 		,"home:///Documents/Rascal/salix/src"
+	],
+	"display_name": "JS",
+	"language": "JS"
+}
