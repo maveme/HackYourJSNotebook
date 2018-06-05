@@ -20,7 +20,7 @@ public REPL jsREPL(){
 
 CommandResult handl(str line){
 	errors=[];
-	result = "";
+	rst = "";
 	try{
 		pt = parse(#start[Source], line);
 		<js, xref, renaming> = desugarAndResolve(pt);
@@ -39,13 +39,13 @@ CommandResult handl(str line){
 			return template;
 		}
         
-        rst += merge(tmpp());
+        rst += merge(jsTemplate());
         return textual("<rst>", messages = errors);
 	}
 	catch ParseError(lo):
 	{
 		errors = [error("Parse error at <lo>")];
-		return textual(result, messages = errors);
+		return textual(rst, messages = errors);
 	}
 }
 
@@ -87,7 +87,7 @@ void jsView(){
 }
 
 
-str tmpp()=
+str jsTemplate() =
 "\<script\>
 '		CodeMirror(document.getElementById(\"original\"), {
 '			value: 
@@ -110,9 +110,6 @@ str tmpp()=
 '			}); 
 '
 '\</script\>
-'
-'
-' 
 '
 '\<script\>
 'var DEBUG_FLAG = true;
@@ -148,9 +145,6 @@ str tmpp()=
 '
 '\</script\>
 '
-'
-'
-'
 '\<script\>
 '	try {
 '		{{desugaredSrc}}
@@ -162,24 +156,3 @@ str tmpp()=
 '		}
 '	}
 '\</script\>";
-
-
-//"<div class="row">
-//			<div class="col-md-6">
-//				<h4>Original SweeterJS source</h4>
-//				<div class="code" id="original"></div>
-//			</div>
-//			<div class="col-md-6">
-//				<h4>Desugared JS source</h4>
-//				<div class="code" id="transformed"></div>
-//			</div>
-//		</div>
-//
-//		<div class="row">
-//			<div class="col-md-12">
-//				<h4>Console output of running the desugared version</h4>
-//				<div id="log">
-//				</div>
-//			</div>
-//		</div>
-//		"
