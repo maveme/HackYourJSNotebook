@@ -6,8 +6,9 @@ import bacata::salix::Bridge;
 import bacata::Notebook;
 import bacata::util::Util;
 import bacata::util::Proposer;
-import javascript::Plugin;
+import javascript::Resolve;
 import javascript::Syntax;
+import javascript::Desugar;
 import demo::HAML;
 import salix::HTML;
 import demo::SelectQuery;
@@ -17,6 +18,21 @@ import demo::StateMachine;
 public REPL jsREPL(){
 	return repl( handl, complet);
 } 
+
+start[Source] rename(start[Source] src, map[loc, str] renaming) {
+  return visit (src) {
+    case Id x => parse(#Id, renaming[x@\loc])
+      when x@\loc in renaming
+  }
+}
+
+tuple[start[Source], Refs, map[loc, str]] desugarAndResolve(start[Source] src) {
+  js = uniqueify(desugarAll(src));
+  <lookup, getRenaming> = makeResolver();
+  xref = resolve(js.top, lookup);
+  renaming = getRenaming(xref);
+  return <js, xref, renaming>;
+}
 
 CommandResult handl(str line){
 	errors=[];
